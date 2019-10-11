@@ -1,0 +1,93 @@
+#include <iostream>
+#include <stdlib.h>
+#include <cstdlib>
+using namespace std;
+
+
+int main()
+{
+    int i, j, pontos=10, aleatorio, jogadorx = 20, jogadory=21, meteorox=1, meteoroy, balax=0, balay=0;
+    char game[22][41], comando;
+
+    aleatorio = rand()%40;
+    meteoroy = aleatorio;
+    do{
+        system("clear");
+        cout<<"pontos = "<<pontos;
+        if (meteorox>=21)
+        {
+            pontos = pontos-5;
+            meteorox = 2;
+            aleatorio = rand()%40;
+            meteoroy = aleatorio;
+        }
+
+        if(balax<=1)
+        {
+            balax=0;
+            balay=0;
+        }
+
+        meteorox = meteorox+1;
+        balax = balax-1;
+
+        for(i=0; i<22; i++)
+        {
+            for (j=0; j<41; j++)
+            {
+                if (i==21 || j==0 || i==1 || j==40)
+                    game[i][j] ='.';
+                else
+                    game[i][j] =' ';
+
+                game[jogadorx][jogadory]= '_';
+                game[meteorox][meteoroy] = '*';
+                game[balax][balay] = '|';
+
+                cout<<game[i][j];
+            }
+            cout<<"\n";
+
+        }
+        cin>>comando;
+
+
+        if (jogadory<=1)
+           jogadory=38;
+        if (jogadory>=39)
+            jogadory=1;
+
+
+        if (comando=='a')
+            jogadory = jogadory-1;
+        if (comando=='d')
+            jogadory = jogadory+1;
+        if (comando=='s')
+            jogadory = jogadory;
+
+
+        if (comando =='l')
+        {
+            pontos = pontos-2;
+            balax=21;
+            balay=jogadory;
+            balax = balax-1;
+        }
+
+        if (((balax>=meteorox-1) && (balax<=meteorox+1)) && (balay==meteoroy))
+        {
+            pontos = pontos + 3;
+            meteorox = 2;
+            aleatorio = rand()%40;
+            meteoroy = aleatorio;
+            balax=0;
+            balay=0;
+        }
+
+    }
+    while(pontos>0);
+
+    if(pontos<=0)
+        cout<<"Game Over";
+
+}
